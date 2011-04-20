@@ -4,7 +4,8 @@
  * Copyright (c) 2010 Rob Flaherty 
  * MIT Licensed: http://www.opensource.org/licenses/mit-license.php
  */
- 
+
+
 (function() {
     
     //Initialize variables and cache jQuery objects
@@ -54,8 +55,10 @@
     //Main "change slide" function
     function changeSlide(id) {
         var slideID = '#slide' + id;        
-        deck.find('.slide-selected').removeClass('slide-selected');
-        $(slideID).addClass('slide-selected');
+
+        deck.find('.slide-selected').removeClass('slide-selected').hide();
+        $(slideID).addClass('slide-selected').hide().
+                    slideToggle(1000);
         
         //Update menu bar
         slideNumber.html(currentSlide);
