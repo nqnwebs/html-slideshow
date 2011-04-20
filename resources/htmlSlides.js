@@ -46,7 +46,18 @@
                 $('header').fadeTo(300,0);
             });
         }
-        
+        if(options.hideFooter === true) {
+            setTimeout(function(){
+                $('footer').fadeTo(300,0);
+            }, 1500);
+
+            $('footer').hover(function(){
+                $('footer').fadeTo(300,1);
+            },
+            function(){
+                $('footer').fadeTo(300,0);
+            });
+        }
         //Set initial slide
         changeSlide(currentSlide);
         
@@ -139,7 +150,7 @@
     
     //Do our business when the DOM is ready
     $(function(){
-        sliderInit({hideMenu: true});
+        sliderInit({hideMenu: false, hideFooter: true});
     });
     
 })();
