@@ -65,35 +65,41 @@
    
     //Main "change slide" function
     function changeSlide(id) {
-        var slideID = '#slide' + id;        
 
-        deck.find('.slide-selected').removeClass('slide-selected').hide();
-        $(slideID).addClass('slide-selected').hide().
-                    slideToggle(1000);
         
-        //Update menu bar
-        slideNumber.html(currentSlide);
-        
-        //Update hash      
-        location.hash = id;
-        
-        //Trigger newSlide event
-        $('html').trigger("newSlide", id);
-        
-        //Hide arrows on first and last slides
-        if ((id != 1) && (id != slideCount)) {
-            prevButton.css('visibility', 'visible');
-            nextButton.css('visibility', 'visible');
-        } else if (id == 1) {
-            prevButton.css('visibility', 'hidden');
-        } else if (id == slideCount) {
-            nextButton.css('visibility', 'hidden');
+        if(!InProgress){
+            InProgress = true;
+            var slideID = '#slide' + id;        
+            deck.find('.slide-selected').removeClass('slide-selected').hide();
+            $(slideID).addClass('slide-selected').hide().slideToggle(1000, function() {
+                    // Animation complete.
+                    InProgress = false;
+            });
+            
+            //Update menu bar
+            slideNumber.html(currentSlide);
+            
+            //Update hash      
+            location.hash = id;
+            
+            //Trigger newSlide event
+            $('html').trigger("newSlide", id);
+            
+            //Hide arrows on first and last slides
+            if ((id != 1) && (id != slideCount)) {
+                prevButton.css('visibility', 'visible');
+                nextButton.css('visibility', 'visible');
+            } else if (id == 1) {
+                prevButton.css('visibility', 'hidden');
+            } else if (id == slideCount) {
+                nextButton.css('visibility', 'hidden');
+            }
         }
     }
     
     //Next slide
     function prevSlide() {
-        if (currentSlide > 1) {
+        if (currentSlide > 1 && !InProgress) {
             currentSlide--;
             changeSlide(currentSlide);
         }     
@@ -101,7 +107,7 @@
     
     //Previous slide
     function nextSlide() {
-        if (currentSlide < slideCount) {
+        if (currentSlide < slideCount && !InProgress) {
             currentSlide++;
             changeSlide(currentSlide); 
         }
@@ -109,12 +115,12 @@
     
     //Reveal "actions"
     function showActions() {        
+
         var actions = $('.slide-selected').find('.action');            
         
         //If actions exist
         if (actions.length > 0) {
             actions.first().removeClass('action').addClass('action-on').fadeIn(250);
-            
             //Number of current action
             var actionOns = $('.slide-selected').find('.action-on'),
                 actionNumber = actionOns.length;
@@ -150,7 +156,9 @@
     
     //Do our business when the DOM is ready
     $(function(){
-        sliderInit({hideMenu: false, hideFooter: true});
+        InProgress = false;
+        $('.incremental').children().addClass('action');
+        sliderInit({hideMenu: false, hideFooter: false});
     });
     
 })();
