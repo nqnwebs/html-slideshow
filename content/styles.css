@@ -2,7 +2,7 @@
   font-family: 'Candal';
   font-style: normal;
   font-weight: normal;
-  src: local('Candal'), url('../fonts/Candal.woff') format('woff'), url('../fonts/Candal.ttf') format('truetype');
+  src: local('Candal'), url('fonts/Candal.woff') format('woff'), url('fonts/Candal.ttf') format('truetype');
 }
 
 body{ background:#f5f6f6; }
